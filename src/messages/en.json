@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "how": "How It Works",
+    "signIn": "Sign In",
+    "tryNow": "Try It Now →"
+  },
+  "hero": {
+    "badge": "All-in-One Agency Platform for Algerian E-Commerce",
+    "line1": "Grow your",
+    "line2": "Business",
+    "line3": "without the complexity.",
+    "sub": "EcoMate centralizes every tool Algerian SMEs need — AI chatbot automation, order management, fulfillment, and creative production. Real people, real results."
+  },
+  "dashboard": {},
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Create Account",
+    "google": "Continue with Google"
+  },
+  "plans": {
+    "monthly": "Monthly",
+    "oneTime": "One-Time",
+    "creative": "Creative Studio",
+    "starter": "Starter",
+    "growth": "Growth",
+    "business": "Business"
+  },
+  "services": {
+    "aiChatbot": "AI Sales Chatbot",
+    "logistics": "EcoTrack Logistics",
+    "payment": "ePayment Integration",
+    "fulfillment": "Ecomate Fulfillment",
+    "creative": "Creative Studio",
+    "webdev": "Web Development"
+  }
+}

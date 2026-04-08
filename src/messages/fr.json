@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
+    "how": "Comment ça marche",
+    "signIn": "Se connecter",
+    "tryNow": "Essayer maintenant →"
+  },
+  "hero": {
+    "badge": "La plateforme d'agence tout-en-un pour le e-commerce Algérien",
+    "line1": "Développez votre",
+    "line2": "Business",
+    "line3": "sans la complexité.",
+    "sub": "EcoMate centralise tous les outils dont les PME Algériennes ont besoin — automatisation Chatbot IA, gestion des commandes, livraison, et production créative."
+  },
+  "dashboard": {},
+  "auth": {
+    "signIn": "Se connecter",
+    "signUp": "Créer un compte",
+    "google": "Continuer avec Google"
+  },
+  "plans": {
+    "monthly": "Mensuel",
+    "oneTime": "Une fois",
+    "creative": "Studio Créatif",
+    "starter": "Starter",
+    "growth": "Croissance",
+    "business": "Business"
+  },
+  "services": {
+    "aiChatbot": "Chatbot IA Ventes",
+    "logistics": "Logistique EcoTrack",
+    "payment": "Paiement Électronique",
+    "fulfillment": "Stockage Ecomate",
+    "creative": "Studio Créatif",
+    "webdev": "Développement Web"
+  }
+}
