@@ -11,7 +11,6 @@ const withNextIntl = createNextIntlPlugin(
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['dkoxruaonaedhqixgbud.supabase.co'],
     remotePatterns: [
       {
         protocol: 'https',
