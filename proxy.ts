@@ -6,11 +6,17 @@ import { routing } from './src/i18n/routing';
 const intlMiddleware = createMiddleware(routing);
 
 export async function proxy(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+  
   // 1. Handle i18n routing first
   const intlResponse = intlMiddleware(request);
   
-  // If next-intl wants to redirect (3xx) e.g. / -> /fr, 
-  // return that response immediately to satisfy its internal logic.
+  // Explicitly return the intlResponse for the root / to ensure the redirect triggers
+  if (path === '/') {
+    return intlResponse;
+  }
+  
+  // If next-intl wants to redirect (3xx)
   if (intlResponse.status >= 300 && intlResponse.status < 400) {
     return intlResponse;
   }
@@ -44,10 +50,8 @@ export async function proxy(request: NextRequest) {
 
   // Refresh session and get user
   const { data: { user } } = await supabase.auth.getUser();
-
-  const path = request.nextUrl.pathname;
   const localeMatch = path.match(/^\/(en|fr|ar)(\/|$)/);
-  const locale = localeMatch ? localeMatch[1] : 'fr';
+  const locale = localeMatch ? localeMatch[1] : 'ar';
   const cleanPath = localeMatch ? path.replace(`/${locale}`, '') || '/' : path;
 
   // Redirection rules based on auth status
