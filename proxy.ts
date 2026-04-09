@@ -8,9 +8,16 @@ const intlMiddleware = createMiddleware(routing);
 export async function proxy(request: NextRequest) {
   // 1. Handle i18n routing first
   const intlResponse = intlMiddleware(request);
-  let supabaseResponse = intlResponse || NextResponse.next({ request });
+  
+  // If next-intl wants to redirect (3xx) e.g. / -> /fr, 
+  // return that response immediately to satisfy its internal logic.
+  if (intlResponse.status >= 300 && intlResponse.status < 400) {
+    return intlResponse;
+  }
 
-  // 2. Initialize Supabase with the combined response
+  // 2. Use the next-intl response as the base for our Supabase session logic
+  let supabaseResponse = intlResponse;
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -18,9 +25,10 @@ export async function proxy(request: NextRequest) {
       cookies: {
         getAll() { return request.cookies.getAll(); },
         setAll(cookiesToSet: { name: string; value: string; options: any }[]) {
+          // Update the request cookies to satisfy getUser()
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-          // Re-create the response to ensure cookies are applied accurately
-          supabaseResponse = intlResponse || NextResponse.next({ request });
+          
+          // Update the response cookies to persist the session
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           );
@@ -34,10 +42,10 @@ export async function proxy(request: NextRequest) {
     return supabaseResponse;
   }
 
+  // Refresh session and get user
   const { data: { user } } = await supabase.auth.getUser();
 
   const path = request.nextUrl.pathname;
-  // Use a more robust regex to skip non-locale paths correctly
   const localeMatch = path.match(/^\/(en|fr|ar)(\/|$)/);
   const locale = localeMatch ? localeMatch[1] : 'fr';
   const cleanPath = localeMatch ? path.replace(`/${locale}`, '') || '/' : path;
@@ -55,7 +63,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // Protect /admin via profile check
+  // Protect /admin routes
   if (cleanPath.startsWith('/admin')) {
     const { data: profile } = await supabase
       .from('profiles')
